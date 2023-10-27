@@ -1,4 +1,5 @@
 const userModel = require("../models/userModel");
+const { hashPassword } = require("../helpers/authHelper");
 
 const registerController = async (req, res) => {
   try {
@@ -32,10 +33,18 @@ const registerController = async (req, res) => {
         message: "user Already Register with this email",
       });
     }
+
+    //hashed password
+    const hashedPassword = await hashPassword(password);
     //save user
-    const user = await userModel({ name, email, password }).save();
+    const user = await userModel({
+      name,
+      email,
+      password: hashedPassword,
+    }).save();
 
     return res.status(201).send({
+      user,
       success: true,
       message: "register successfull",
     });
