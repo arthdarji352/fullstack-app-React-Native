@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import InputBox from "../../components/forms/InputBox";
 import SubmitButton from "../../components/forms/SubmitButton";
 
-const Register = ({ navigation }) => {
+const Login = ({ navigation }) => {
   //state
-  const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,14 +15,14 @@ const Register = ({ navigation }) => {
   const handleSubmit = () => {
     setLoading(true);
     try {
-      if (!name || !email || !password) {
+      if (!email || !password) {
         setLoading(false);
         Alert.alert("Please fill all fields");
         return;
       }
-      console.log("register data", { name, email, password });
+      console.log("Login data", { email, password });
       setLoading(false);
-      setName("");
+
       setEmail("");
       setPassword("");
     } catch (error) {
@@ -32,9 +32,8 @@ const Register = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.pageTitle}>Register</Text>
+      <Text style={styles.pageTitle}>Login</Text>
       <View style={{ marginHorizontal: 20 }}>
-        <InputBox inputTitle={"Name"} value={name} setValue={setName} />
         <InputBox
           inputTitle={"Email"}
           keyboardType="email-address"
@@ -52,14 +51,17 @@ const Register = ({ navigation }) => {
       </View>
       {/* <Text>{JSON.stringify({ name, password, email }, null, 4)}</Text> */}
       <SubmitButton
-        btnTitle="Register"
+        btnTitle="Login"
         loading={loading}
         handleSubmit={handleSubmit}
       />
       <Text style={styles.linkText}>
-        Already Register please{" "}
-        <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
-          Login
+        Not a user Please{" "}
+        <Text
+          style={styles.link}
+          onPress={() => navigation.navigate("Register")}
+        >
+          Register
         </Text>
       </Text>
     </View>
@@ -98,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+export default Login;
