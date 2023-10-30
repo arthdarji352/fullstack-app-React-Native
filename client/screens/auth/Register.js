@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
 import InputBox from "../../components/forms/InputBox";
 import SubmitButton from "../../components/forms/SubmitButton";
+import axios from "axios";
 
 const Register = ({ navigation }) => {
   //state
@@ -12,7 +13,7 @@ const Register = ({ navigation }) => {
   //function
   //btn funcn
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
     try {
       if (!name || !email || !password) {
@@ -20,12 +21,18 @@ const Register = ({ navigation }) => {
         Alert.alert("Please fill all fields");
         return;
       }
-      console.log("register data", { name, email, password });
+      // console.log("register data", { name, email, password });
       setLoading(false);
+      const { data } = await axios.post(
+        "http://192.168.1.20:8080/api/v1/auth/register",
+        { name, email, password }
+      );
+      alert(data && data.message);
       setName("");
       setEmail("");
       setPassword("");
     } catch (error) {
+      alert(error.response.data.message);
       setLoading(false);
       console.log(error);
     }
